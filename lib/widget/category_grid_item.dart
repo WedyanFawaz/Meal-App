@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/models/category.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem({super.key, required this.category});
+  const CategoryGridItem(
+      {super.key, required this.category, required this.onSelectCategory});
   final Category category;
+
+  final void Function() onSelectCategory;
 
   @override
   Widget build(BuildContext context) {
-    //I can have a feedback with inkwell sowe use it instead of gestruedetector 
+    //I can have a feedback with inkwell sowe use it instead of gestruedetector
     return InkWell(
-      onTap: () {
-        
-      }, splashColor: Theme.of(context).primaryColor,
+      onTap:onSelectCategory,
+      splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(18),
       child: Container(
         padding: EdgeInsets.all(16),
-        margin:EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-
+            borderRadius: BorderRadius.circular(18),
             gradient: LinearGradient(colors: [
-          category.color.withOpacity(0.5),
-          category.color.withOpacity(0.9)
-        ], begin: Alignment.topCenter, end: Alignment.topCenter)),
+              category.color.withOpacity(0.5),
+              category.color.withOpacity(0.9)
+            ], begin: Alignment.topCenter, end: Alignment.topCenter)),
         child: Text(
           category.title,
           style: Theme.of(context)
