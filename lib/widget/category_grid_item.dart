@@ -21,9 +21,9 @@ class CategoryGridItem extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
             gradient: LinearGradient(colors: [
-              category.color.withOpacity(0.5),
-              category.color.withOpacity(0.9)
-            ], begin: Alignment.topCenter, end: Alignment.topCenter)),
+              Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5)
+            ], begin: Alignment.topCenter, end: Alignment.bottomRight)),
         child: Text(
           category.title,
           style: Theme.of(context)
