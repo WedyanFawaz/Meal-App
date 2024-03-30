@@ -1,101 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/Screens/tabs.dart';
-import 'package:meals_app/widget/main_drawer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/widget/switch.dart';
 
-enum Filter {
-  glutenFree,
-  lactoseFree,
-  vegetrain,
-  vegan
-}
+import '../providers/filter_provider.dart';
 
-class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key, required this.currentFilters});
-final Map<Filter, bool> currentFilters;
-  @override
-  State<FiltersScreen> createState() => _FiltersScreenState();
-}
-
-class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenFreeState = false;
-  var _lactoseFreeState = false;
-  var _vegetFreeState = false;
-  var _veganFreeState = false;
+class FiltersScreen extends ConsumerWidget {
+  const FiltersScreen({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    _glutenFreeState = widget.currentFilters[Filter.glutenFree]!;
-        _lactoseFreeState = widget.currentFilters[Filter.lactoseFree]!;
-            _vegetFreeState = widget.currentFilters[Filter.vegetrain]!;
-                _veganFreeState = widget.currentFilters[Filter.vegan]!;
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
 
-  @override
-  Widget build(BuildContext context) {
+    final activeFilters = ref.watch(filterProvider);
     return Scaffold(
-        // drawer: MainDrawer(onSelectScreen: (identifier){
-        //   Navigator.pop(context);
 
-        //   if (identifier=='Meals'){
-        //     Navigator.push(context, MaterialPageRoute(builder: (ctx)=> TabScreen()));
-        //   }
-
-        // }),
         appBar: AppBar(
           title: const Text('Your Filters'),
         ),
-        body: WillPopScope( //It returns data 
-          onWillPop: ()  async{ 
-            Navigator.of(context).pop({ //When click pop this changes made , transfare data
-              Filter.glutenFree : _glutenFreeState,
-              Filter.lactoseFree: _lactoseFreeState,
-              Filter.vegetrain: _vegetFreeState,
-              Filter.vegan: _veganFreeState
-            }); 
-            return false;
-            },
-          child: Column(
+        body: 
+        Column(
             children: [
               SwitchItem(
-                xFreeSubtitle: 'only include Gluten-free meals',
+                  xFreeSubtitle: 'only include Gluten-free meals',
                   xfreeName: 'Gluten-free',
-                  xFree: _glutenFreeState,
+                  xFree: activeFilters[Filter.glutenFree]!,
                   onChanged: (newValue) {
-                    setState(() {
-                      _glutenFreeState = newValue;
-                    });
+              ref.read(filterProvider.notifier).setFilter(Filter.glutenFree, newValue);
+
                   }),
               SwitchItem(
-                xFreeSubtitle: 'only include lactose-free meals',
+                  xFreeSubtitle: 'only include lactose-free meals',
                   xfreeName: 'lactose-free',
-                  xFree: _lactoseFreeState,
+                  xFree:  activeFilters[Filter.lactoseFree]!,
                   onChanged: (newValue) {
-                    setState(() {
-                      _lactoseFreeState = newValue;
-                    });
+                
+                    ref.read(filterProvider.notifier).setFilter(Filter.lactoseFree, newValue);
+                  
                   }),
               SwitchItem(
-                xFreeSubtitle: 'only include vegetarian meals',
+                  xFreeSubtitle: 'only include vegetarian meals',
                   xfreeName: 'vegetarian',
-                  xFree: _vegetFreeState,
+                  xFree:  activeFilters[Filter.vegetrain]!,
                   onChanged: (newValue) {
-                    setState(() {
-                      _vegetFreeState = newValue;
-                    });
+        ref.read(filterProvider.notifier).setFilter(Filter.vegetrain, newValue);
                   }),
               SwitchItem(
-                xFreeSubtitle:'only include vegen meals' ,
+                  xFreeSubtitle: 'only include vegen meals',
                   xfreeName: 'vegen',
-                  xFree: _veganFreeState,
+                  xFree:  activeFilters[Filter.vegan]!,
                   onChanged: (newValue) {
-                    setState(() {
-                      _veganFreeState = newValue;
-                    });
+              ref.read(filterProvider.notifier).setFilter(Filter.vegan, newValue);
                   }),
             ],
           ),
-        ));
+        );
   }
 }

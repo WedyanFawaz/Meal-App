@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/Screens/Details_Meal.dart';
 import 'package:meals_app/widget/Meal_item.dart';
 
 import '../models/meal.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({super.key, this.title, required this.meals, required this.onToggleFav});
+  const MealsScreen({super.key, this.title, required this.meals});
   final String? title;
   final List<Meal> meals;
-final void Function (Meal meal) onToggleFav;
+
 
 
 
@@ -47,6 +46,6 @@ if (title ==null){
             ? content
             : ListView.builder(
               itemCount: meals.length,
-                itemBuilder: (ctx, index) => MealItem(meal: meals[index], onToggleFav: onToggleFav,)));
+                itemBuilder: (ctx, index) => MealItem(meal: meals[index])));
   }
 }

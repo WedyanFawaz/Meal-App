@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meals_app/Screens/Details_Meal.dart';
@@ -6,13 +7,13 @@ import 'package:meals_app/widget/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal, required this.onToggleFav});
+  const MealItem({super.key, required this.meal});
   final Meal meal;
-  final void Function (Meal meal) onToggleFav;
+
 
    _OnselectMeal(context,Meal meal){
     
-Navigator.push(context,MaterialPageRoute(builder: (ctx)=> DetailsMeal(meal: meal, onToggleFav:onToggleFav,)));
+Navigator.push(context,MaterialPageRoute(builder: (ctx)=> DetailsMeal(meal: meal)));
   }
   //Make the first character UpperCase 
 String get complexityText{
@@ -39,13 +40,16 @@ String get affordabilityText{
         child: Stack(
           children: [
             //The image will be loaded in smooth way
-            FadeInImage(
-              //Make sure the image never distored but cut of and zoomed in a bit
-              fit: BoxFit.cover,
-              height: 200,
-              width: double.infinity,
-                placeholder: MemoryImage(kTransparentImage),
-                image: NetworkImage(meal.imageUrl)),
+            Hero(
+              tag: meal.id,
+              child: FadeInImage(
+                //Make sure the image never distored but cut of and zoomed in a bit
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: NetworkImage(meal.imageUrl)),
+            ),
             Positioned(
                 //It will be place in the top of this image
                 bottom: 0, //Stay at the bottom, if I use top :0 it will be in the top 
